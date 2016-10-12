@@ -1,10 +1,8 @@
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
+@AllArgsConstructor
 @EqualsAndHashCode
 public class State {
-    private String state;
-
-    public State(String state) {
-        this.state = state;
-    }
+    private final String state;
 }

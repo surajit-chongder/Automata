@@ -1,8 +1,11 @@
+import lombok.AllArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
+@AllArgsConstructor
 public class DFA {
     private ArrayList<State> states;
     private ArrayList<Alphabet> alphabetSet;
@@ -10,13 +13,6 @@ public class DFA {
     private State initialState;
     private ArrayList<State> finalStates;
 
-    public DFA(ArrayList<State> states, ArrayList<Alphabet> alphabetSet, TransitionFunction transitionFunction, State state, ArrayList<State> finalStates) {
-        this.states = states;
-        this.alphabetSet = alphabetSet;
-        this.transitionFunction = transitionFunction;
-        this.initialState = state;
-        this.finalStates = finalStates;
-    }
     private List<String> getAllAlphabets(String determinationString) {
         return asList(determinationString.split(""));
     }

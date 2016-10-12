@@ -1,3 +1,4 @@
+import lombok.AllArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -6,13 +7,11 @@ import org.json.simple.parser.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 public class DFATupleGenerator {
 
     private String jsonText;
 
-    public DFATupleGenerator(String jsonText) {
-        this.jsonText = jsonText;
-    }
     private JSONObject parseJson() throws ParseException {
         JSONParser parser = new JSONParser();
         Object parse = parser.parse(jsonText);
