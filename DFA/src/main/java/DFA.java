@@ -1,10 +1,12 @@
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
+@EqualsAndHashCode
 @AllArgsConstructor
 public class DFA {
     private ArrayList<State> states;

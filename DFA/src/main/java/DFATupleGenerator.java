@@ -1,29 +1,45 @@
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
+@EqualsAndHashCode
 @AllArgsConstructor
 public class DFATupleGenerator {
 
     private String jsonText;
 
-    private JSONObject parseJson() throws ParseException {
+    private JSONArray parseJson() throws ParseException {
         JSONParser parser = new JSONParser();
         Object parse = parser.parse(jsonText);
-        return (JSONObject) parse;
+        return (JSONArray) parse;
     }
-    public State getInitialState() throws ParseException {
-        String state = (String) parseJson().get("initial_state");
+    public ArrayList<DFA> getTuple() throws ParseException {
+        ArrayList<DFA> dfas = new ArrayList<DFA>();
+        for (int i = 0; i < parseJson().size(); i++) {
+            HashMap hashJson = (HashMap) parseJson().get(i);
+            HashMap tuple = (HashMap)hashJson.get("tuple");
+            State initialState = getInitialState(tuple);
+            ArrayList<State> states = getStates(tuple);
+            TransitionFunction transitions = getTransitions(tuple);
+            ArrayList<State> finalStates = getFinalStates(tuple);
+            ArrayList<Alphabet> alphabetSet = getAlphabetSet(tuple);
+            dfas.add(new DFA(states,alphabetSet,transitions,initialState,finalStates));
+        }
+        return dfas;
+    }
+
+    private State getInitialState(HashMap tuple) throws ParseException {
+        String state = (String) tuple.get("start-state");
         return new State(state);
     }
 
-    public ArrayList<State> getStates() throws ParseException {
-        JSONArray jsonStates = (JSONArray) parseJson().get("states");
+    private ArrayList<State> getStates(HashMap tuple) throws ParseException {
+        JSONArray jsonStates = (JSONArray) tuple.get("states");
         ArrayList<State> states = new ArrayList<>();
         jsonStates.forEach(state ->{
             states.add(new State((String) state));
@@ -31,21 +47,23 @@ public class DFATupleGenerator {
         return  states;
     }
 
-    public TransitionFunction getTransitions() throws ParseException {
-        JSONArray transitionFunction = (JSONArray) parseJson().get("transition_function");
-        List<Transition> transitions =new ArrayList<>();
-        transitionFunction.forEach(transition -> {
-            ArrayList transitionList = (ArrayList) transition;
-            State currentState = new State((String) transitionList.get(0));
-            State nextState = new State((String) transitionList.get(2));
-            Alphabet alphabet = new Alphabet((String) transitionList.get(1));
-            transitions.add(new Transition(currentState,alphabet,nextState));
+    private TransitionFunction getTransitions(HashMap tuple) throws ParseException {
+        HashMap delta = (HashMap) tuple.get("delta");
+        ArrayList<Transition> transitions = new ArrayList<Transition>();
+        delta.forEach((key, value) -> {
+            State currentState = new State((String) key);
+            HashMap hash = (HashMap) value;
+            hash.forEach((alpha,state)->{
+                Alphabet alphabet = new Alphabet((String) alpha);
+                State nextState = new State((String) state);
+                transitions.add(new Transition(currentState,alphabet,nextState));
+            });
         });
         return new TransitionFunction(transitions);
     }
 
-    public ArrayList<State> getFinalState() throws ParseException {
-        JSONArray jsonStates = (JSONArray) parseJson().get("final_states");
+    private ArrayList<State> getFinalStates(HashMap tuple) throws ParseException {
+        JSONArray jsonStates = (JSONArray) tuple.get("final-states");
         ArrayList<State> states = new ArrayList<>();
         jsonStates.forEach(state ->{
             states.add(new State((String) state));
@@ -53,17 +71,13 @@ public class DFATupleGenerator {
         return  states;
     }
 
-    public ArrayList<Alphabet> getAlphabetSet() throws ParseException {
-        JSONArray alphabetSet = (JSONArray) parseJson().get("alphabet_set");
+    private ArrayList<Alphabet> getAlphabetSet(HashMap tuple) throws ParseException {
+        JSONArray alphabetSet = (JSONArray) tuple.get("alphabets");
         ArrayList<Alphabet> alphabets = new ArrayList<>();
         alphabetSet.forEach(alphabet ->{
             alphabets.add(new Alphabet((String) alphabet));
         });
         return  alphabets;
-    }
-
-    public DFA generateDfa() throws ParseException {
-        return new DFA(getStates(),getAlphabetSet(),getTransitions(),getInitialState(),getFinalState());
     }
 
 }
