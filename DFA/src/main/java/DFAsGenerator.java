@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 @EqualsAndHashCode
 @AllArgsConstructor
-public class DFATupleGenerator {
+public class DFAsGenerator {
 
     private String jsonText;
 
@@ -18,10 +18,10 @@ public class DFATupleGenerator {
         Object parse = parser.parse(jsonText);
         return (JSONArray) parse;
     }
-    public ArrayList<DFA> getTuple() throws ParseException {
+    public ArrayList<DFA> getDfas() throws ParseException {
         ArrayList<DFA> dfas = new ArrayList<DFA>();
-        for (int i = 0; i < parseJson().size(); i++) {
-            HashMap hashJson = (HashMap) parseJson().get(i);
+        for (int index = 0; index < parseJson().size(); index++) {
+            HashMap hashJson = (HashMap) parseJson().get(index);
             HashMap tuple = (HashMap)hashJson.get("tuple");
             State initialState = getInitialState(tuple);
             ArrayList<State> states = getStates(tuple);
@@ -41,9 +41,7 @@ public class DFATupleGenerator {
     private ArrayList<State> getStates(HashMap tuple) throws ParseException {
         JSONArray jsonStates = (JSONArray) tuple.get("states");
         ArrayList<State> states = new ArrayList<>();
-        jsonStates.forEach(state ->{
-            states.add(new State((String) state));
-        });
+        jsonStates.forEach(state -> states.add(new State((String) state)));
         return  states;
     }
 
@@ -65,19 +63,14 @@ public class DFATupleGenerator {
     private ArrayList<State> getFinalStates(HashMap tuple) throws ParseException {
         JSONArray jsonStates = (JSONArray) tuple.get("final-states");
         ArrayList<State> states = new ArrayList<>();
-        jsonStates.forEach(state ->{
-            states.add(new State((String) state));
-        });
+        jsonStates.forEach(state -> states.add(new State((String) state)));
         return  states;
     }
 
     private ArrayList<Alphabet> getAlphabetSet(HashMap tuple) throws ParseException {
         JSONArray alphabetSet = (JSONArray) tuple.get("alphabets");
         ArrayList<Alphabet> alphabets = new ArrayList<>();
-        alphabetSet.forEach(alphabet ->{
-            alphabets.add(new Alphabet((String) alphabet));
-        });
+        alphabetSet.forEach(alphabet -> alphabets.add(new Alphabet((String) alphabet)));
         return  alphabets;
     }
-
 }

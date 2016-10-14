@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class DFATupleGeneratorTest {
-    private DFATupleGenerator DFATupleGenerator;
+public class DFAsGeneratorTest {
+    private DFAsGenerator DFAsGenerator;
     private State q1,q2;
     private Alphabet one,zero;
     private Transition transition1,transition2,transition3,transition4;
@@ -15,8 +15,10 @@ public class DFATupleGeneratorTest {
 
     @Before
     public void setUp() throws Exception {
-        String jsonText = "[{\"name\":\"odd number of zeroes\",\"type\":\"dfa\",\"tuple\":{\"states\":[\"q1\",\"q2\"],\"alphabets\":[\"1\",\"0\"],\"delta\":{\"q1\":{\"0\":\"q2\",\"1\":\"q1\"},\"q2\":{\"0\":\"q1\",\"1\":\"q2\"}},\"start-state\":\"q1\",\"final-states\":[\"q2\"]},\"pass-cases\":[\"0\",\"000\",\"00000\",\"10\",\"101010\",\"010101\"],\"fail-cases\":[\"00\",\"0000\",\"1001\",\"1010\",\"001100\"]}]";
-        DFATupleGenerator = new DFATupleGenerator(jsonText);
+        String jsonText = "[{\"name\":\"odd number of zeroes\",\"type\":" + "\"dfa\",\"tuple\":" +
+                "{\"states\":[\"q1\",\"q2\"],\"alphabets\":[\"1\",\"0\"],\"delta\":{\"q1\":{\"0\":\"q2\",\"1\":\"q1\"},\"q2\":{\"0\":\"q1\",\"1\":\"q2\"}},\"start-state\":\"q1\",\"final-states\":[\"q2\"]}," +
+                "\"pass-cases\":[\"0\",\"000\",\"00000\",\"10\",\"101010\",\"010101\"],\"fail-cases\":[\"00\",\"0000\",\"1001\",\"1010\",\"001100\"]}]";
+        DFAsGenerator = new DFAsGenerator(jsonText);
 
         q1 = new State("q1");
         q2 = new State("q2");
@@ -29,7 +31,7 @@ public class DFATupleGeneratorTest {
         transitionFunction = new TransitionFunction(asList(transition1,transition2,transition3,transition4));
     }
     @Test
-    public void shouldReturnDfas() throws Exception {
+    public void shouldGetAllDfasForGivenJsonString() throws Exception {
         ArrayList<State> states = new ArrayList<>();
         states.add(q1);
         states.add(q2);
@@ -44,7 +46,7 @@ public class DFATupleGeneratorTest {
         ArrayList<DFA> expected = new ArrayList<>();
         expected.add(new DFA(states,alphabetSet,transitionFunction,q1,finalStates));
 
-        assertEquals(DFATupleGenerator.getTuple(), expected);
+        assertEquals(DFAsGenerator.getDfas(), expected);
     }
 
 }

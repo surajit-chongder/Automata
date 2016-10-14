@@ -31,7 +31,7 @@ public class DFATest {
     }
 
     @Test
-    public void shouldReturnTrueWhenAStringInThatLanguage(){
+    public void shouldGetTrueWhenAStringInThatLanguage(){
         Transition transition1= new Transition(q1, one, q1);
         Transition transition2 = new Transition(q1, zero, q2);
 
@@ -55,7 +55,7 @@ public class DFATest {
     }
 
     @Test
-    public void shouldReturnFalseWhenAStringNotInThatLanguage(){
+    public void shouldGetFalseWhenAStringNotInThatLanguage(){
         Transition transition1= new Transition(q1, one, q1);
         Transition transition2 = new Transition(q1, zero, q2);
 
@@ -80,7 +80,7 @@ public class DFATest {
         assertFalse(DFA.isInLanguage("1"));
     }
     @Test
-    public void shouldReturnFalseWhenAStringNotEndWithOne(){
+    public void shouldGetFalseWhenAStringNotEndWithOne(){
         Transition transition1= new Transition(q1, one, q2);
         Transition transition2= new Transition(q1, zero, q6);
         Transition transition3= new Transition(q6, one, q6);
@@ -121,7 +121,7 @@ public class DFATest {
     }
 
     @Test
-    public void shouldReturnTrueWhenAStringStartAndEndWithOne(){
+    public void shouldGetTrueWhenAStringStartAndEndWithOne(){
         Transition transition1= new Transition(q1, one, q2);
         Transition transition2= new Transition(q1, zero, q6);
         Transition transition3= new Transition(q6, one, q6);
