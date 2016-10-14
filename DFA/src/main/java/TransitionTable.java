@@ -5,7 +5,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @EqualsAndHashCode
-public class TransitionFunction {
+public class TransitionTable {
     private List<Transition> transitions;
 
     public State getNextState(State state, Alphabet alphabet){

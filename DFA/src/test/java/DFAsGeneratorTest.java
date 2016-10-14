@@ -11,7 +11,7 @@ public class DFAsGeneratorTest {
     private State q1,q2;
     private Alphabet one,zero;
     private Transition transition1,transition2,transition3,transition4;
-    private TransitionFunction transitionFunction;
+    private TransitionTable transitionTable;
 
     @Before
     public void setUp() throws Exception {
@@ -28,7 +28,7 @@ public class DFAsGeneratorTest {
         transition2 = new Transition(q1, one, q1);
         transition3 = new Transition(q2, zero, q1);
         transition4 = new Transition(q2, one, q2);
-        transitionFunction = new TransitionFunction(asList(transition1,transition2,transition3,transition4));
+        transitionTable = new TransitionTable(asList(transition1,transition2,transition3,transition4));
     }
     @Test
     public void shouldGetAllDfasForGivenJsonString() throws Exception {
@@ -44,7 +44,7 @@ public class DFAsGeneratorTest {
         finalStates.add(q2);
 
         ArrayList<DFA> expected = new ArrayList<>();
-        expected.add(new DFA(states,alphabetSet,transitionFunction,q1,finalStates));
+        expected.add(new DFA(states,alphabetSet, transitionTable,q1,finalStates));
 
         assertEquals(DFAsGenerator.getDfas(), expected);
     }

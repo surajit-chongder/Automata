@@ -11,7 +11,7 @@ import static java.util.Arrays.asList;
 public class DFA {
     private ArrayList<State> states;
     private ArrayList<Alphabet> alphabetSet;
-    private TransitionFunction transitionFunction;
+    private TransitionTable transitionTable;
     private State initialState;
     private ArrayList<State> finalStates;
 
@@ -24,7 +24,7 @@ public class DFA {
         getAllAlphabets(determinationString).forEach(alphabet -> deteministicAlphabetSet.add(new Alphabet(alphabet)));
         State currentState = this.initialState;
         for (Alphabet alphabet : deteministicAlphabetSet) {
-            currentState = this.transitionFunction.getNextState(currentState, alphabet);
+            currentState = this.transitionTable.getNextState(currentState, alphabet);
         }
         return isFinalState(currentState);
     }

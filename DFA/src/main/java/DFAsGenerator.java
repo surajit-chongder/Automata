@@ -25,7 +25,7 @@ public class DFAsGenerator {
             HashMap tuple = (HashMap)hashJson.get("tuple");
             State initialState = getInitialState(tuple);
             ArrayList<State> states = getStates(tuple);
-            TransitionFunction transitions = getTransitions(tuple);
+            TransitionTable transitions = getTransitions(tuple);
             ArrayList<State> finalStates = getFinalStates(tuple);
             ArrayList<Alphabet> alphabetSet = getAlphabetSet(tuple);
             dfas.add(new DFA(states,alphabetSet,transitions,initialState,finalStates));
@@ -45,7 +45,7 @@ public class DFAsGenerator {
         return  states;
     }
 
-    private TransitionFunction getTransitions(HashMap tuple) throws ParseException {
+    private TransitionTable getTransitions(HashMap tuple) throws ParseException {
         HashMap delta = (HashMap) tuple.get("delta");
         ArrayList<Transition> transitions = new ArrayList<Transition>();
         delta.forEach((key, value) -> {
@@ -57,7 +57,7 @@ public class DFAsGenerator {
                 transitions.add(new Transition(currentState,alphabet,nextState));
             });
         });
-        return new TransitionFunction(transitions);
+        return new TransitionTable(transitions);
     }
 
     private ArrayList<State> getFinalStates(HashMap tuple) throws ParseException {

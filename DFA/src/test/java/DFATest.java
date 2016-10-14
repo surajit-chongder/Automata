@@ -36,7 +36,7 @@ public class DFATest {
         Transition transition2 = new Transition(q1, zero, q2);
 
         List<Transition> transitions1 = asList(transition1, transition2);
-        TransitionFunction transitionFunction = new TransitionFunction(transitions1);
+        TransitionTable transitionTable = new TransitionTable(transitions1);
 
         ArrayList<State> states = new ArrayList<>();
         states.add(q1);
@@ -49,7 +49,7 @@ public class DFATest {
         ArrayList<State> finalStates = new ArrayList<>();
         finalStates.add(q2);
 
-        DFA = new DFA(states,alphabet_set,transitionFunction,initialState,finalStates);
+        DFA = new DFA(states,alphabet_set, transitionTable,initialState,finalStates);
 
         assertTrue(DFA.isInLanguage("0"));
     }
@@ -62,7 +62,7 @@ public class DFATest {
         ArrayList<Transition> transitions = new ArrayList<>();
         transitions.add(transition1);
         transitions.add(transition2);
-        TransitionFunction transitionFunction = new TransitionFunction(transitions);
+        TransitionTable transitionTable = new TransitionTable(transitions);
 
         ArrayList<State> states = new ArrayList<>();
         states.add(q1);
@@ -75,7 +75,7 @@ public class DFATest {
         ArrayList<State> finalStates = new ArrayList<>();
         finalStates.add(q2);
 
-        DFA = new DFA(states,alphabet_set,transitionFunction,initialState,finalStates);
+        DFA = new DFA(states,alphabet_set, transitionTable,initialState,finalStates);
 
         assertFalse(DFA.isInLanguage("1"));
     }
@@ -98,7 +98,7 @@ public class DFATest {
         List<Transition> transitions = asList(transition1, transition2, transition3, transition4,
                 transition5, transition6, transition7, transition8, transition9, transition10, transition11, transition12);
 
-        TransitionFunction transitionFunction = new TransitionFunction(transitions);
+        TransitionTable transitionTable = new TransitionTable(transitions);
 
         ArrayList<State> states = new ArrayList<>();
         states.add(q1);
@@ -115,7 +115,7 @@ public class DFATest {
         ArrayList<State> finalStates = new ArrayList<>();
         finalStates.add(q5);
 
-        DFA = new DFA(states,alphabet_set,transitionFunction,initialState,finalStates);
+        DFA = new DFA(states,alphabet_set, transitionTable,initialState,finalStates);
 
         assertFalse(DFA.isInLanguage("01001"));
     }
@@ -139,7 +139,7 @@ public class DFATest {
         List<Transition> transitions = asList(transition1, transition2, transition3, transition4,
                 transition5, transition6, transition7, transition8, transition9, transition10, transition11, transition12);
 
-        TransitionFunction transitionFunction = new TransitionFunction(transitions);
+        TransitionTable transitionTable = new TransitionTable(transitions);
 
         ArrayList<State> states = new ArrayList<>();
         states.add(q1);
@@ -156,7 +156,7 @@ public class DFATest {
         ArrayList<State> finalStates = new ArrayList<>();
         finalStates.add(q5);
 
-        DFA = new DFA(states,alphabetSet,transitionFunction,initialState,finalStates);
+        DFA = new DFA(states,alphabetSet, transitionTable,initialState,finalStates);
 
         assertTrue(DFA.isInLanguage("11001"));
     }
